@@ -19,8 +19,8 @@ namespace Verify
 
 
        static Random rnd = new Random();
-
-        int vnumber = rnd.Next(10000, 99999);
+       int vnumber = rnd.Next(100000, 999999);
+        VerifyFunc VF = new VerifyFunc();
         public Veification()
         {
             InitializeComponent();
@@ -36,25 +36,7 @@ namespace Verify
             this.Close();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if(Int32.Parse(textBox1.Text.Trim()) == vnumber)
-            {
-                MessageBox.Show("Congratulations!\nYour Account is verified!");
-                this.Close();
-            }
-            else if(textBox1.Text.Trim() == "")
-            {
-                MessageBox.Show("Cannot be empty!");
-            }
-            else
-            {
-                MessageBox.Show("Wrong Code!");
-                this.Close();
-            }
-            
-        }
-
+        
 
         private void emailbox_TextChanged(object sender, EventArgs e)
         {
@@ -96,5 +78,37 @@ namespace Verify
                 MessageBox.Show("Couldn't Send Gmail." + ex.Message);
             }
         }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (textBox1.Text.Trim() == "")
+            {
+                MessageBox.Show("Code cannot be empty!");
+            }
+            else
+            {
+                try
+                {
+
+                    if (VF.Verify(textBox1.Text.Trim(),vnumber) == true)
+                    {
+                        MessageBox.Show("Congratulations!\nYour mail is verfied!");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Wrong Code!");
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show(ex.Message + "\nCouldn't Verify.");
+                }
+                finally
+                {
+                    this.Close();
+                }
+            }
+        }
+
     }
 }
